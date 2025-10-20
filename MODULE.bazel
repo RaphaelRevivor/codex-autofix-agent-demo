@@ -1,0 +1,6 @@
+module(
+  name = "lru_project",
+  version = "1.0.0",
+)
+
+bazel_dep(name = "googletest", version = "1.17.0")

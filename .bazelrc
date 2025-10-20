@@ -1,0 +1,2 @@
+build:msvc --cxxopt=/std:c++17
+build:msvc --host_cxxopt=/std:c++17
