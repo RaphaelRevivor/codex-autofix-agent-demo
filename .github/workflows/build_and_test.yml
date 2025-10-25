@@ -21,27 +21,3 @@ jobs:
         run: bazel run examples:example
       - name: build and run google tests
         run: bazel run tests/...
-      - name: install lcov and doxygen with minimal requirements
-        run: |
-          sudo apt-get update -qq
-          echo "set man-db/auto-update false" | sudo debconf-communicate
-          sudo dpkg-reconfigure man-db
-          sudo apt-get install -y --no-install-recommends lcov
-          sudo apt-get install -y --no-install-recommends doxygen graphviz
-      - name: run code coverage and generate HTML report
-        run: |
-          bazel coverage tests/... --combined_report=lcov --instrumentation_filter=//libs --test_output=errors
-          cp bazel-out/_coverage/_coverage_report.dat cov.info
-          genhtml cov.info -o cov_report
-      - name: upload cov report as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: cov-report
-          path: cov_report
-      - name: use doxygen to generate documentation
-        run: doxygen Doxyfile
-      - name: upload doxygen html folder as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: doxygen-documentation
-          path: html
