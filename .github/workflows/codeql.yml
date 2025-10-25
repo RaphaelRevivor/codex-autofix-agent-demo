@@ -18,15 +18,24 @@ jobs:
       - name: Install CodeQL CLI
         run: |
           curl -L -o codeql.zip https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
-          unzip codeql.zip -d $HOME/codeql
+          unzip codeql.zip -d $HOME
           echo "$HOME/codeql" >> $GITHUB_PATH
+
+      - name: Verify CodeQL CLI
+        run: |
+          which codeql
           codeql --version
 
       - name: Create CodeQL database with build tracing
         run: codeql database create db-bazel --language=cpp --command='bazel build //examples:example'
 
+      - name: Prepare CodeQL query packs
+        run: |
+          codeql pack install codeql/cpp-queries || codeql pack download codeql/cpp-queries
+          codeql resolve qlpacks
+
       - name: Perform CodeQL Analysis
-        run: codeql database analyze db-bazel cpp-security-and-quality.qls --format=sarifv2.1.0 --output=results.
+        run: codeql database analyze db-bazel codeql/cpp-queries:codeql-suites/cpp-security-and-quality.qls --format=sarifv2.1.0 --output=results.sarif
 
         # Upload results to GitHub Code Scanning
       - name: Upload SARIF to Code Scanning
