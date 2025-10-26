@@ -52,7 +52,7 @@ void LRUCache<KeyType, ValueType>::put(const KeyType& key, const ValueType& valu
   lock_guard<mutex> lock(m);
 
   // the following operations are unsafe
-  char buf[10];
+  char buf[5];
   strcpy(buf, value.c_str());
 
   auto iter = iterHashMap.find(key);
