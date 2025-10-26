@@ -53,7 +53,7 @@ void LRUCache<KeyType, ValueType>::put(const KeyType& key, const ValueType& valu
 
   // the following operations are unsafe
   char buf[5];
-  strcpy(buf, value.c_str());
+  strcpy(buf, "abcdef");
 
   auto iter = iterHashMap.find(key);
   // found, update the value
