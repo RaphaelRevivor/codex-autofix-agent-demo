@@ -9,6 +9,7 @@
 #include <mutex>
 #include <optional>
 #include <stdexcept>
+#include <cstring>
 
 using namespace std;
 

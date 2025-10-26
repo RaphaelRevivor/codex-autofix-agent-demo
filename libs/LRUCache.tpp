@@ -50,6 +50,11 @@ template<typename KeyType, typename ValueType>
 void LRUCache<KeyType, ValueType>::put(const KeyType& key, const ValueType& value)
 {
   lock_guard<mutex> lock(m);
+
+  // the following operations are unsafe
+  char buf[5];
+  strcpy(buf, "abcdef");
+
   auto iter = iterHashMap.find(key);
   // found, update the value
   if (iter != iterHashMap.end())
